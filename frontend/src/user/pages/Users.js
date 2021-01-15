@@ -1,17 +1,19 @@
-import React from "react";
+import React from 'react';
 
-import UsersList from "../components/UsersList";
+import UsersList from '../components/UsersList';
 
-export default function Users() {
+const Users = () => {
   const USERS = [
     {
-      id: "u1",
-      name: "Mario",
+      id: 'u1',
+      name: 'Max Schwarz',
       image:
-        "https://cdn.vox-cdn.com/thumbor/Yt1avchDkHqEqJuhYZ3YjKF3kFc=/0x0:1700x960/1200x675/filters:focal(714x344:986x616)/cdn.vox-cdn.com/uploads/chorus_image/image/57514059/mario.0.jpg",
-      places: 10,
-    },
+        'https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+      places: 3
+    }
   ];
 
   return <UsersList items={USERS} />;
-}
+};
+
+export default Users;
