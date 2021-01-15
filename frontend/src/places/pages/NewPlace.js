@@ -1,63 +1,39 @@
 import React, { useCallback, useReducer } from "react";
-import "./NewPlace.css";
+
 import Input from "../../shared/components/FormElements/Input";
-import {
-  VALIDATOR_MINLENGTH,
-  VALIDATOR_REQUIRE,
-} from "../../shared/components/util/validators";
 import Button from "../../shared/components/FormElements/Button";
+import {
+  VALIDATOR_REQUIRE,
+  VALIDATOR_MINLENGTH,
+} from "../../shared/util/validators";
+import { useForm } from "../../shared/hooks/form-hook";
+import "./PlaceForm.css";
 
-const formReducer = (state, action) => {
-  switch (action.type) {
-    case "INPUT_CHANGE":
-      let formIsValid = true;
-      for (const inputId in state.inputs) {
-        if (inputId === action.inputId) {
-          formIsValid = formIsValid && action.isValid;
-        } else {
-          formIsValid = formIsValid && state.inputs[inputId].isValid;
-        }
-      }
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.inputId]: { value: action.value, isValid: action.isValid },
-        },
-        isValid: formIsValid 
-      };
-
-    default:
-      return state;
-  }
-};
-
-export default function NewPlace() {
-  const [formState, dispatch] = useReducer(formReducer, {
-    inputs: {
+const NewPlace = () => {
+  const [formState, inputHandler ] = useForm(
+    {
       title: {
         value: "",
         isValid: false,
       },
-    },
-    description: {
-      title: {
+      description: {
+        value: "",
+        isValid: false,
+      },
+      address: {
         value: "",
         isValid: false,
       },
     },
-    isValid: false,
-  });
+    false
+  );
 
-  const inputHandler = useCallback((id, value, isValid) => {
-      dispatch({type: 'INPUT_CHANGE', value: value, isValid: isValid, inputId: id})
-  }, [dispatch]);
 
-  const placeSubmitHandler = event => {
-      event.preventDefault();
-      //here is the place where data is going to be send to server // backend
 
-  }
+  const placeSubmitHandler = (event) => {
+    event.preventDefault();
+    console.log(formState.inputs); // send this to the backend!
+  };
 
   return (
     <form className="place-form" onSubmit={placeSubmitHandler}>
@@ -67,7 +43,7 @@ export default function NewPlace() {
         type="text"
         label="Title"
         validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter valid title"
+        errorText="Please enter a valid title."
         onInput={inputHandler}
       />
       <Input
@@ -75,7 +51,7 @@ export default function NewPlace() {
         element="textarea"
         label="Description"
         validators={[VALIDATOR_MINLENGTH(5)]}
-        errorText="Please enter valid description."
+        errorText="Please enter a valid description (at least 5 characters)."
         onInput={inputHandler}
       />
       <Input
@@ -83,10 +59,14 @@ export default function NewPlace() {
         element="input"
         label="Address"
         validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter valid address."
+        errorText="Please enter a valid address."
         onInput={inputHandler}
       />
-      <Button type="submit" disabled={!formState.isValid}>ADD PLACE</Button>
+      <Button type="submit" disabled={!formState.isValid}>
+        ADD PLACE
+      </Button>
     </form>
   );
-}
+};
+
+export default NewPlace;
