@@ -1,0 +1,9 @@
+{
+    "env": {
+        "DB_USER" :  "SuperMario",
+        "DB_PASSWORD": "Ntd8OW2WLD9PoSLZ", 
+        "DB_NAME": "addPlaceApp",
+        "GOOGLE_API": "AIzaSyC8GfalbhdWWNS0mxBOhuZYLZX--JmOsTE", 
+        "JWT_KEY": "fuckin_secret"
+    }
+}
